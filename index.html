@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TGIF Delivery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      text-align: center;
+      padding: 30px 20px;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    header img {
+      max-width: 200px;
+      height: auto;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
+      padding: 25px 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #222;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      background: #25D366;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #1da851;
+    }
+
+    .summary {
+      margin-top: 20px;
+      padding: 15px;
+      background: #f0f0f0;
+      border-radius: 10px;
+      display: none;
+    }
+
+    .summary h3 {
+      margin-bottom: 10px;
+      text-align: center;
+      color: #444;
+    }
+
+    .social-links {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .social-links a {
+      margin: 0 10px;
+      display: inline-block;
+    }
+
+    .social-links img {
+      width: 30px;
+      height: 30px;
+      transition: transform 0.2s ease;
+    }
+
+    .social-links img:hover {
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 600px) {
+      header img {
+        max-width: 150px;
+      }
+
+      .container {
+        margin: 10px;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Logo at the top -->
+  <header>
+    <img src="mylogo.jpg" alt="Brand Logo">
+  </header>
+
+  <div class="container">
+    <h2>Place Your Order</h2>
+
+    <form id="orderForm">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="number">Phone Number</label>
+      <input type="text" id="number" name="number" required>
+
+      <label for="address">Delivery Address</label>
+      <textarea id="address" name="address" rows="3" required></textarea>
+
+      <label for="size">Clothes Size</label>
+      <select id="size" name="size">
+        <option value="Small" data-price="10">Small - $10</option>
+        <option value="Medium" data-price="12">Medium - $10</option>
+        <option value="Large" data-price="14">Large - $10</option>
+        <option value="XL" data-price="16">XL - $10</option>
+      </select>
+
+      <label for="quality">Shirt Quality</label>
+      <select id="quality" name="quality">
+        <option value="Standard" data-price="10">Standard - $10</option>
+        <option value="Premium" data-price="20">Premium - $20</option>
+        <option value="Luxury" data-price="30">Luxury - $30</option>
+      </select>
+
+      <div class="summary" id="orderSummary">
+        <h3>Order Summary</h3>
+        <p id="summaryText"></p>
+      </div>
+
+      <button type="submit">Send Order via WhatsApp</button>
+    </form>
+
+    <div class="social-links">
+      <a href="https://tiktok.com/@youraccount" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" alt="TikTok"></a>
+      <a href="https://instagram.com/youraccount" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram"></a>
+      <a href="https://facebook.com/youraccount" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733547.png" alt="Facebook"></a>
+    </div>
+  </div>
+
+  <script>
+    const sizeSelect = document.getElementById("size");
+    const qualitySelect = document.getElementById("quality");
+    const summaryDiv = document.getElementById("orderSummary");
+    const summaryText = document.getElementById("summaryText");
+
+    function updateSummary(){
+      const sizeOption = sizeSelect.options[sizeSelect.selectedIndex];
+      const qualityOption = qualitySelect.options[qualitySelect.selectedIndex];
+
+      const size = sizeOption.value;
+      const sizePrice = parseInt(sizeOption.dataset.price);
+      const quality = qualityOption.value;
+      const qualityPrice = parseInt(qualityOption.dataset.price);
+
+      const total = sizePrice + qualityPrice;
+
+      summaryText.textContent = `Size: ${size} ($${sizePrice}), Quality: ${quality} ($${qualityPrice}) → Total: $${total}`;
+      summaryDiv.style.display = "block";
+    }
+
+    sizeSelect.addEventListener("change", updateSummary);
+    qualitySelect.addEventListener("change", updateSummary);
+
+    document.getElementById("orderForm").addEventListener("submit", function(e){
+      e.preventDefault();
+      
+      const name = document.getElementById("name").value;
+      const number = document.getElementById("number").value;
+      const address = document.getElementById("address").value;
+      const sizeOption = sizeSelect.options[sizeSelect.selectedIndex];
+      const qualityOption = qualitySelect.options[qualitySelect.selectedIndex];
+
+      const size = sizeOption.value;
+      const sizePrice = parseInt(sizeOption.dataset.price);
+      const quality = qualityOption.value;
+      const qualityPrice = parseInt(qualityOption.dataset.price);
+      const total = sizePrice + qualityPrice;
+
+      // Replace with your WhatsApp number (include country code, no +)
+      const sellerNumber = "231772058479"; 
+
+      const message = `New Order:%0AName: ${name}%0APhone: ${number}%0AAddress: ${address}%0ASize: ${size} ($${sizePrice})%0AQuality: ${quality} ($${qualityPrice})%0ATotal: $${total}`;
+
+      window.open(`https://wa.me/${sellerNumber}?text=${message}`, "_blank");
+    });
+  </script>
+</body>
+</html>
